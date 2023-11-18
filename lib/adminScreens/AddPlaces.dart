@@ -188,10 +188,10 @@ class _AddPlacesState extends State<AddPlaces> {
                     loading: loading,
                     text: 'Save',
                     onTap: () {
+                      print(_image.length);
                       setState(() {
                         loading = true;
                       });
-
                       List<String> url = [];
                       int id = DateTime.now().millisecondsSinceEpoch;
                       dB.child(id.toString()).set({
@@ -201,11 +201,13 @@ class _AddPlacesState extends State<AddPlaces> {
                         'district': district.text.toString(),
                         'todo': todo.text.toString()
                       }).then((value) async {
-                        for (int i = 0; i <= _image.length; i++) {
+
+                        for (int i = 0; i < _image.length; i++) { // Fix the loop condition here
+                          print('Uploading image $i');
                           fs.Reference ref =
-                              fs.FirebaseStorage.instance.ref('/places/$id/$i');
+                          fs.FirebaseStorage.instance.ref('/places/$id/$i');
                           fs.UploadTask upload =
-                              ref.putFile(_image[i]!.absolute);
+                          ref.putFile(_image[i]!.absolute);
                           await Future.value(upload).then((value) async {
                             var newUrl = await ref.getDownloadURL();
                             // url.add(newUrl);
@@ -214,13 +216,14 @@ class _AddPlacesState extends State<AddPlaces> {
                                 .child('image$i')
                                 .set({'path': newUrl});
                           });
-                          Navigator.pop(context);
-                          setState(() {});
-                          loading = true;
-                          Utilis().toastMessage('Uploaded');
                         }
+                        Navigator.pop(context);
+                        setState(() {});
+                        loading = false;
+                        Utilis().toastMessage('Uploaded');
                       });
-                    }),
+                    }
+                ),
               )
             ],
           ),

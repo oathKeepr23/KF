@@ -167,7 +167,7 @@ class _AddCarRentalState extends State<AddCarRental> {
                       'location': location.text.toString(),
                       'phone Number': phoneNumber.text.toString()
                     }).then((value) async {
-                      for (int i = 0; i <= _image.length; i++) {
+                      for (int i = 0; i < _image.length; i++) {
                         fstorage.Reference ref = fstorage
                             .FirebaseStorage.instance
                             .ref('/carRental/$id/$i');
@@ -181,11 +181,11 @@ class _AddCarRentalState extends State<AddCarRental> {
                               .child('image$i')
                               .set({'path': newUrl});
                         });
-                        Navigator.pop(context);
-                        setState(() {});
-                        loading = true;
-                        Utilis().toastMessage('Uploaded');
                       }
+                      Navigator.pop(context);
+                      setState(() {});
+                      loading = true;
+                      Utilis().toastMessage('Uploaded');
                     });
                   })
             ],

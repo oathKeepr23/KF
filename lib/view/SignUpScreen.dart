@@ -95,7 +95,8 @@ class _SignUpPageState extends State<SignUpPage> {
                             border: OutlineInputBorder(
                                 borderSide:
                                     const BorderSide(color: back, width: 2),
-                                borderRadius: BorderRadius.circular(35)),
+                                borderRadius:
+                                BorderRadius.circular(35)),
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
                                     const BorderSide(color: back, width: 2),
@@ -280,7 +281,6 @@ class _SignUpPageState extends State<SignUpPage> {
         setState(() {
           loading = false;
         });
-
         notificationServices.getDeviceToken().then((valuee) {
           fireStore.doc(value.user!.uid.toString()).set({
             'userId': value.user!.uid.toString(),

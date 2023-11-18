@@ -81,179 +81,169 @@ class _MechanicalScreenState extends State<MechanicalScreen> {
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(15),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            PlacesDetailScreen(
-                                                details: list, index: index)));
-                              },
-                              child: Column(
-                                children: [
-                                  CarouselSlider(
-                                    options: CarouselOptions(
-                                      height: height * 0.4,
-                                      enlargeCenterPage:
-                                          true, // Set to true if you want the center image to be larger
-                                      autoPlay:
-                                          true, // Set to true for auto-playing the carousel
-                                      autoPlayInterval:
-                                          const Duration(seconds: 2),
-                                    ),
-                                    items: [
-                                      list[index]['image0']['path'],
-                                      list[index]['image1']['path'],
-                                      list[index]['image2']['path'],
-                                      list[index]['image3']['path'],
-                                      list[index]['image4']['path']
-                                    ].map((imageUrl) {
-                                      return Builder(
-                                        builder: (BuildContext context) {
-                                          return ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              child: Image.network(
-                                                imageUrl,
-                                                height: height * 0.2,
-                                                fit: BoxFit.fill,
-                                              ));
+                            child: Column(
+                              children: [
+                                CarouselSlider(
+                                  options: CarouselOptions(
+                                    height: height * 0.4,
+                                    enlargeCenterPage:
+                                        true, // Set to true if you want the center image to be larger
+                                    autoPlay:
+                                        true, // Set to true for auto-playing the carousel
+                                    autoPlayInterval:
+                                        const Duration(seconds: 2),
+                                  ),
+                                  items: [
+                                    list[index]['image0']['path'],
+                                    list[index]['image1']['path'],
+                                    list[index]['image2']['path'],
+                                    list[index]['image3']['path'],
+                                    list[index]['image4']['path']
+                                  ].map((imageUrl) {
+                                    return Builder(
+                                      builder: (BuildContext context) {
+                                        return ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: Image.network(
+                                              imageUrl,
+                                              height: height * 0.2,
+                                              fit: BoxFit.fill,
+                                            ));
+                                      },
+                                    );
+                                  }).toList(),
+                                ),
+                                SizedBox(
+                                  height: height * 0.01,
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.all(20),
+                                  width: width,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      border:
+                                          Border.all(color: Colors.black12)),
+                                  child: Column(
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Text(
+                                            list[index]['name'],
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 22,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          const Text('4.5'),
+                                          SizedBox(
+                                            width: width * 0.1,
+                                          ),
+                                          const Icon(Icons.star,
+                                              color: Colors.yellow)
+                                        ],
+                                      ),
+                                      InkWell(
+                                        onTap: () async {
+                                          LatLng latLang =
+                                              await getCoordinates(
+                                            list[index]['name'] +
+                                                list[index]['location'],
+                                          );
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AppGoogleMap(
+                                                          latLang: latLang)));
                                         },
-                                      );
-                                    }).toList(),
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.01,
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.all(20),
-                                    width: width,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        border:
-                                            Border.all(color: Colors.black12)),
-                                    child: Column(
-                                      children: [
-                                        Column(
-                                          children: [
-                                            Text(
-                                              list[index]['name'],
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 22,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            const Text('4.5'),
-                                            SizedBox(
-                                              width: width * 0.1,
-                                            ),
-                                            const Icon(Icons.star,
-                                                color: Colors.yellow)
-                                          ],
-                                        ),
-                                        InkWell(
-                                          onTap: () async {
-                                            LatLng latLang =
-                                                await getCoordinates(
-                                              list[index]['name'] +
-                                                  list[index]['location'],
-                                            );
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        AppGoogleMap(
-                                                            latLang: latLang)));
-                                          },
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  const Icon(
-                                                    Icons.location_on_outlined,
-                                                    color: back,
-                                                  ),
-                                                  Text(
-                                                    list[index]['location'],
-                                                    style:  TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize:width*0.031,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const Padding(
-                                          padding: EdgeInsets.all(3.0),
-                                          child: Divider(
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                        Column(
+                                        child: Column(
                                           children: [
                                             Row(
                                               children: [
                                                 const Icon(
-                                                    Icons.access_time_rounded,
-                                                    color: back),
-                                                SizedBox(
-                                                  width: width * 0.02,
+                                                  Icons.location_on_outlined,
+                                                  color: back,
                                                 ),
-                                                const Text(
-                                                  'Open 24 Hours',
-                                                  style: TextStyle(
-                                                    color: Colors.black54,
+                                                Text(
+                                                  list[index]['location'],
+                                                  style:  TextStyle(
                                                     fontWeight: FontWeight.bold,
-                                                    fontSize: 20,
+                                                    fontSize:width*0.031,
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                            SizedBox(
-                                              height: height * 0.02,
-                                            ),
-                                            InkWell(
-                                              onTap: () {
-                                                Calland_message().makePhoneCall(
-                                                    list[index]['phone Number']
-                                                        .toString());
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  const Icon(Icons.phone,
-                                                      color: CupertinoColors
-                                                          .systemBlue),
-                                                  SizedBox(
-                                                    width: width * 0.02,
-                                                  ),
-                                                  Text(
-                                                    list[index]['phone Number'],
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black54,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
                                           ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.all(3.0),
+                                        child: Divider(
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                      Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                  Icons.access_time_rounded,
+                                                  color: back),
+                                              SizedBox(
+                                                width: width * 0.02,
+                                              ),
+                                              const Text(
+                                                'Open 24 Hours',
+                                                style: TextStyle(
+                                                  color: Colors.black54,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.02,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              Calland_message().makePhoneCall(
+                                                  list[index]['phone Number']
+                                                      .toString());
+                                            },
+                                            child: Row(
+                                              children: [
+                                                const Icon(Icons.phone,
+                                                    color: CupertinoColors
+                                                        .systemBlue),
+                                                SizedBox(
+                                                  width: width * 0.02,
+                                                ),
+                                                Text(
+                                                  list[index]['phone Number'],
+                                                  style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold,
+                                                    color: Colors.black54,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           );
                         },

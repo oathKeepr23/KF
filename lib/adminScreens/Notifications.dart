@@ -221,12 +221,12 @@ class _AdminNotificationsState extends State<AdminNotifications> {
                         'desc': desc.text.toString(),
                         'image': newUrl
                       }).then((value) async {
-                        Navigator.pop(context);
-                        setState(() {});
-                        loading = false;
 
-                        Utilis().toastMessage('Uploaded');
                       });
+                      Navigator.pop(context);
+                      setState(() {});
+                      loading = false;
+                      Utilis().toastMessage('Uploaded');
                     });
                   }
                   // notificationServices.getDeviceToken().then((value) async {

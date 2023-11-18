@@ -131,7 +131,6 @@ class _AddHospitalsState extends State<AddHospitals> {
                 height: height * 0.02,
               ),
               TextFormField(
-                maxLines: 5,
                 controller: phoneNumber,
                 focusNode: phoneNumberNode,
                 textInputAction: TextInputAction.next,
@@ -195,8 +194,7 @@ class _AddHospitalsState extends State<AddHospitals> {
                       'district': district.text.toString(),
                       'phoneNumber': phoneNumber.text.toString()
                     }).then((value) async {
-                      setState(() {});
-                      loading = false;
+
                       for (int i = 0; i <= _image.length; i++) {
                         fs.Reference ref =
                             fs.FirebaseStorage.instance.ref('/hospital/$id/$i');
@@ -209,12 +207,14 @@ class _AddHospitalsState extends State<AddHospitals> {
                               .child('image$i')
                               .set({'path': newUrl});
                         });
-                        Navigator.pop(context);
-                        Utilis().toastMessage('Uploaded');
+
                       }
+
                     });
+                    Navigator.pop(context);
+                    Utilis().toastMessage('Uploaded');
                     setState(() {});
-                    loading = true;
+                    loading = false;
                   })
             ],
           ),

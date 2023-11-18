@@ -183,7 +183,6 @@ class _AddHotelsState extends State<AddHotels> {
                     setState(() {
                       loading = true;
                     });
-
                     int id = DateTime.now().millisecondsSinceEpoch;
                     dB.child(id.toString()).set({
                       'id': id,
@@ -192,7 +191,7 @@ class _AddHotelsState extends State<AddHotels> {
                       'price': price.text.toString(),
                       'phone Number': phoneNumber.text.toString()
                     }).then((value) async {
-                      for (int i = 0; i <= _image.length; i++) {
+                      for (int i = 0; i < _image.length; i++) {
                         fstorage.Reference ref = fstorage
                             .FirebaseStorage.instance
                             .ref('/hotels/$id/$i');
@@ -206,13 +205,13 @@ class _AddHotelsState extends State<AddHotels> {
                               .child('image$i')
                               .set({'path': newUrl});
                         });
-                        setState(() {});
-                        loading = false;
-                        Navigator.pop(context);
 
-                        Utilis().toastMessage('Uploaded');
                       }
                     });
+                    setState(() {});
+                    loading = false;
+                    Navigator.pop(context);
+                    Utilis().toastMessage('Uploaded');
                     setState(() {});
                     loading = false;
                   })
